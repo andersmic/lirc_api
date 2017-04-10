@@ -1,16 +1,19 @@
 #!/usr/bin/env python
 
 from flask import Flask, jsonify, request, abort
+import subprocess
 
 app = Flask(__name__)
 
 status = {
-    'power': False
+    'power': False,
     'volume': 0
 }
 
 def irsend(code, directive = "SEND_ONCE", remote = "nad"):
-    print "Execute: irsend " + directive + " " + remote + " " + code + " "
+    cmd = "/usr/bin/irsend " + directive + " " + remote + " " + code + " "
+    print "Execute: " + cmd 
+    subprocess.call(cmd, shell=True)
     if code == 'KEY_POWER':
         status['power'] = not status['power']
     elif code == 'KEY_VOLUMEDOWN':
@@ -72,4 +75,4 @@ def send_control():
     return jsonify({'rc': returnCode})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=9080, debug=True)
