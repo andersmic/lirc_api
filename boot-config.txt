@@ -1,0 +1,5 @@
+# /boot/config.txt params for using the lirc driver
+dtoverlay=lirc-rpi
+dtparam=gpio_out_pin=23
+dtparam=gpio_in_pin=15
+dtparam=gpio_in_pull=down
